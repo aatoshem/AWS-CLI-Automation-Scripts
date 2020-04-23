@@ -3,17 +3,17 @@
 #Creates a VPC and retrieves its ID and assigns it to a variable
 VpcID=$(aws ec2 create-vpc --cidr-block 10.0.0.0/16 | grep -Po '"VpcId": *\K"[^"]*"' | sed 's/"//g')  
 
-echo "MY VPC: $VpcID"
+echo "VPC: $VpcID"
 aws ec2 create-tags --resources $VpcID --tags Key=Name,Value=MY-CLI-VPC
 
 #Creates a subnet and retrieves its ID and assigns it to a variable
 PublicSubnet=$(aws ec2 create-subnet --vpc-id $VpcID --cidr-block 10.0.1.0/24 | grep -Po '"SubnetId": *\K"[^"]*"' | sed 's/"//g')
-echo "My Subnet: $PublicSubnet"
+echo "Public Subnet: $PublicSubnet"
 aws ec2 create-tags --resources $PublicSubnet --tags Key=Name,Value=MY-CLI-Public-Subnet
 
 #Creates a subnet and retrieves its ID and assigns it to a variable
 PrivateSubnet=$(aws ec2 create-subnet --vpc-id $VpcID --cidr-block 10.0.0.0/24 | grep -Po '"SubnetId": *\K"[^"]*"' | sed 's/"//g')
-echo "My Subnet: $PrivateSubnet"
+echo "Private Subnet: $PrivateSubnet"
 aws ec2 create-tags --resources $PrivateSubnet --tags Key=Name,Value=MY-CLI-Private-Subnet
 
 #Creates IGW and Retrieves Internet Gateway ID and assigns it to a variable
