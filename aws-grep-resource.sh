@@ -47,7 +47,7 @@ echo "Public Subnet: $PublicSubnet has been associated to the Public Route Table
 # Modifies the Public Subnet to auto-assign public IPV4 addresses to instances on this subnet  
 aws ec2 modify-subnet-attribute --subnet-id $PublicSubnet --map-public-ip-on-launch
 
-MyKey=OurNewKey
+MyKey=OurNewKey2
 
 aws ec2 create-key-pair --key-name $MyKey --query 'KeyMaterial' --output text > $MyKey.pem
 
@@ -81,10 +81,7 @@ echo "Executed: ssh -i "$MyKey.pem" ec2-user@$PublicIPAddress"
 
 sleep 60
 
-ssh -i "$MyKey.pem" ec2-user@$PublicIPAddress
-
-
-
+ssh -o "StrictHostKeyChecking no" -i "$MyKey.pem" ec2-user@$PublicIPAddress
 
 
 
